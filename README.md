@@ -12,6 +12,10 @@ AI-powered procurement document platform. Upload a PDF → extract & chunk text 
 
 For in-depth architectural details, design principles, and data flow specifications, see [docs/architecture.md](docs/architecture.md).
 
+## Testing
+
+For testing strategies, test suite breakdowns, and execution commands, see [docs/testing.md](docs/testing.md).
+
 ## API Documentation
 
 For full API documentation, endpoint specifications, and system design overview, see [docs/API.md](docs/API.md).
