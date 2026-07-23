@@ -1,0 +1,48 @@
+# Miscellaneous / Scratch
+misc/
+*.log
+*.tmp
+.pytest_cache/
+opencode.json
+
+# Storage & Database
+backend/procurement.db*
+backend/storage/pdfs/
+storage/
+
+# Backend
+backend/.venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/.pytest_cache/
+backend/*.egg-info/
+backend/dist/
+*.pyc
+__pycache__/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.nx/
+frontend/coverage/
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+
+# OS & Temp Files
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+
+# IDE & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+.project
+.settings/

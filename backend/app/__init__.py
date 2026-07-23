@@ -1,0 +1,1 @@
+"""MONQ Procurement RAG backend application package."""

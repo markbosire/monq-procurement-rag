@@ -1,0 +1,1 @@
+"""FastAPI route handlers for documents and chat endpoints."""
