@@ -37,7 +37,7 @@ def main():
     run([pip_cmd, "install", "--quiet", "-r", "requirements.txt"], "[1/5] Installing Python dependencies...")
 
     # 3. Download spaCy model
-    run([python_cmd, "-m", "spacy", "download", "--quiet", "en_core_web_sm"], "[2/5] Downloading spaCy language model...")
+    run([python_cmd, "-m", "spacy", "download", "en_core_web_sm"], "[2/5] Downloading spaCy language model...")
 
     # 4. Pre-download sentence-transformers embedding model
     run([python_cmd, "-c", "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"], "[3/5] Downloading embedding model (all-MiniLM-L6-v2)...")
