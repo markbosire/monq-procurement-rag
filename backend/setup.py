@@ -1,7 +1,8 @@
 """One-command setup script for the MONQ Procurement RAG backend.
 
 Creates a virtual environment, installs dependencies, downloads the spaCy
-model, and copies the example environment file.
+model and sentence-transformers embedding model, and copies the example
+environment file.
 """
 
 import os
@@ -41,7 +42,11 @@ def main():
     print("Downloading spaCy language model...")
     run([python_cmd, "-m", "spacy", "download", "en_core_web_sm"])
 
-    # 4. Copy .env.example -> .env if not present
+    # 4. Pre-download sentence-transformers embedding model
+    print("Downloading embedding model (all-MiniLM-L6-v2)...")
+    run([python_cmd, "-c", "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"])
+
+    # 5. Copy .env.example -> .env if not present
     env_example = BACKEND_DIR / ".env.example"
     env_file = BACKEND_DIR / ".env"
     if env_example.exists() and not env_file.exists():
