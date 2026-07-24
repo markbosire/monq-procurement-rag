@@ -5,6 +5,7 @@
  * - `/` redirects to `/documents`
  * - `/documents` lists all documents
  * - `/documents/:id` opens the chat + PDF viewer for a specific document
+ * - Any unmatched path shows a 404 page
  *
  * @packageDocumentation
  * @since 1.0.0
@@ -30,6 +31,11 @@ const routes = [
     name: 'document-chat',
     component: () => import('../pages/DocumentChatPage.vue'),
     props: true,
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: () => import('../pages/NotFoundPage.vue'),
   },
 ]
 
