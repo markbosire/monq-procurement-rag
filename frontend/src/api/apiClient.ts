@@ -9,6 +9,8 @@
  * @since 1.0.0
  */
 
+import { useToast } from '../composables/useToast'
+
 // ── Errors ──────────────────────────────────────────────────────────
 
 /**
@@ -32,6 +34,31 @@ export class ApiError extends Error {
 
 // ── Client ─────────────────────────────────────────────────────────
 
+/** Common phrases in backend error messages that indicate a bad Groq API key. */
+const GROQ_KEY_ERRORS = [
+  'GROQ_API_KEY',
+  'Invalid API Key',
+  'invalid_api_key',
+]
+
+/**
+ * Show a persistent toast if the error message indicates a bad Groq API key.
+ *
+ * Called once per session – subsequent calls are no-ops after the first toast.
+ */
+let _groqKeyToastShown = false
+function _warnIfGroqKeyError(message: string) {
+  if (_groqKeyToastShown) return
+  const isKeyError = GROQ_KEY_ERRORS.some(kw => message.includes(kw))
+  if (isKeyError) {
+    _groqKeyToastShown = true
+    useToast().show(
+      'Invalid or missing GROQ_API_KEY. Set your real key in backend/.env and restart the server.',
+      'error',
+    )
+  }
+}
+
 /**
  * Perform a typed GET or POST request and parse the JSON response.
  *
@@ -45,7 +72,9 @@ export async function apiFetch<T>(url: string, options?: RequestInit): Promise<T
   const res = await fetch(url, options)
   if (!res.ok) {
     const body = await res.json().catch(() => ({}))
-    throw new ApiError(res.status, body.detail || `Request failed with status ${res.status}`)
+    const msg = body.detail || `Request failed with status ${res.status}`
+    _warnIfGroqKeyError(msg)
+    throw new ApiError(res.status, msg)
   }
   return res.json() as Promise<T>
 }
@@ -64,7 +93,9 @@ export async function apiFetchRaw(url: string, options?: RequestInit): Promise<R
   const res = await fetch(url, options)
   if (!res.ok) {
     const body = await res.json().catch(() => ({}))
-    throw new ApiError(res.status, body.detail || `Request failed with status ${res.status}`)
+    const msg = body.detail || `Request failed with status ${res.status}`
+    _warnIfGroqKeyError(msg)
+    throw new ApiError(res.status, msg)
   }
   return res
 }
