@@ -84,7 +84,7 @@ def _llm_extract(
         )
     except AuthenticationError as e:
         raise ValueError(
-            "Invalid GROQ_API_KEY. Check that your key is correct in the .env file."
+            "Invalid GROQ_API_KEY. Check that your key is correct in the .env file and restart the server."
         ) from e
     content = response.choices[0].message.content
     return json.loads(content)

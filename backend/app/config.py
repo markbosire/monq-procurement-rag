@@ -49,5 +49,6 @@ def require_groq_key():
     if not key or key == _PLACEHOLDER:
         raise RuntimeError(
             "GROQ_API_KEY is not set. Add your real key to the .env file "
-            "(the default placeholder from .env.example won't work)."
+            "(the default placeholder from .env.example won't work), "
+            "then restart the server."
         )

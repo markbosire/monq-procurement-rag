@@ -188,7 +188,7 @@ def answer_question(
         )
     except AuthenticationError as e:
         raise ValueError(
-            "Invalid GROQ_API_KEY. Check that your key is correct in the .env file."
+            "Invalid GROQ_API_KEY. Check that your key is correct in the .env file and restart the server."
         ) from e
 
     raw = response.choices[0].message.content
