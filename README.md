@@ -22,7 +22,14 @@ For full API documentation, endpoint specifications, and system design overview,
 
 ## Installation
 
-### 1. Frontend Setup
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/markbosire/monq-procurement-rag.git
+cd monq-procurement-rag
+```
+
+### 2. Frontend Setup
 
 First, install dependencies for the frontend application:
 
@@ -39,7 +46,7 @@ npm run dev
 
 The frontend server runs on: **http://localhost:5173**
 
-### 2. Backend Setup
+### 3. Backend Setup
 
 Next, install dependencies and set up the virtual environment for the backend application:
 
