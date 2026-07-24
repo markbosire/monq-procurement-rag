@@ -40,3 +40,10 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+
+def require_groq_key():
+    if not settings.groq_api_key:
+        raise RuntimeError(
+            "GROQ_API_KEY is not set. Add it to your .env file or set the GROQ_API_KEY environment variable."
+        )

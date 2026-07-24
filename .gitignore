@@ -16,6 +16,7 @@ backend/**/__pycache__/
 backend/.pytest_cache/
 backend/*.egg-info/
 backend/dist/
+backend/.coverage
 *.pyc
 __pycache__/
 

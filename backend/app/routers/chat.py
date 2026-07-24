@@ -11,6 +11,7 @@ from app.db.session import get_db
 from app.schemas import ChatRequest, ChatResponse, ChatHistoryResponse, ChatHistoryMessage, SourceChunk
 from app.services.rag import answer_question
 from app.repositories.chat_repository import ChatRepository
+from app.config import require_groq_key
 
 router = APIRouter(prefix="/documents/{document_id}/chat", tags=["chat"])
 
@@ -98,6 +99,11 @@ def chat(
         raise HTTPException(status_code=404, detail="Document not found")
     if doc.status != "ready":
         raise HTTPException(status_code=400, detail="Document is not ready for chat")
+
+    try:
+        require_groq_key()
+    except RuntimeError as e:
+        raise HTTPException(status_code=503, detail=str(e))
 
     session = repo.get_or_create_session(document_id)
 

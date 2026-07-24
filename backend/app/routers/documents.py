@@ -18,6 +18,7 @@ from app.services.ingestion import ingest_document
 from app.repositories.document_repository import DocumentRepository
 from app.storage import get_pdf_storage
 from app.storage.interfaces import PDFStorage
+from app.config import require_groq_key
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 
@@ -93,6 +94,11 @@ async def upload_document(
     """
     if not file.filename or not file.filename.lower().endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Only PDF files are supported")
+
+    try:
+        require_groq_key()
+    except RuntimeError as e:
+        raise HTTPException(status_code=503, detail=str(e))
 
     pdf_bytes = await file.read()
     content_hash = hashlib.sha256(pdf_bytes).hexdigest()
