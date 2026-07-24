@@ -79,7 +79,7 @@ The backend API runs on **http://localhost:8000** (Swagger at http://localhost:8
 1. Open your browser and navigate to **http://localhost:5173**.
 2. **Upload a PDF**: Drag & drop or select a procurement document (e.g. RFP, Contract, SOW).
 3. **View Extraction & Metadata**: See auto-classified procurement category, summaries, and extracted metadata fields.
-4. **Chat with Document**: Ask questions about the document and receive grounded AI answers with source highlights.
+4. **Chat with Document**: Ask questions about the document and receive grounded AI answers with source highlights. Click any source citation to scroll directly to the referenced content in the PDF viewer.
 
 ![System Demo](docs/assets/DEMO.gif)
 
