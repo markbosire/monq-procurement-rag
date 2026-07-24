@@ -92,7 +92,7 @@ Frontend tests are located in `frontend/src/__tests__/` and built using `Vitest`
 
 4. Run tests with coverage:
    ```bash
-   npm run test -- --coverage
+   npm run test:coverage
    ```
 
 ### Frontend Test Suite Structure
