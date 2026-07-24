@@ -33,7 +33,7 @@ async def lifespan(app: FastAPI):
     Initialises the database schema, runs pending migrations, and
     pre-downloads ML models before serving requests.
     """
-    if not settings.groq_api_key:
+    if not settings.groq_api_key or settings.groq_api_key == "your_groq_api_key_here":
         print("  WARNING: GROQ_API_KEY is not set. Chat and classification will fail.", flush=True)
     else:
         print("  GROQ_API_KEY is set.", flush=True)

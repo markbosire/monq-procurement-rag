@@ -51,7 +51,7 @@ def main():
     if env_example.exists() and not env_file.exists():
         print("  [5/6] Creating .env from .env.example...", flush=True)
         shutil.copy(env_example, env_file)
-    print("  [6/6] Don't forget to set your GROQ_API_KEY in .env", flush=True)
+    print("  [6/6] Don't forget to set your real GROQ_API_KEY in .env (the placeholder won't work)", flush=True)
 
     print("\nSetup complete! Activate the environment and start the server:")
     if is_windows:

@@ -41,9 +41,13 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
+_PLACEHOLDER = "your_groq_api_key_here"
+
 
 def require_groq_key():
-    if not settings.groq_api_key:
+    key = settings.groq_api_key
+    if not key or key == _PLACEHOLDER:
         raise RuntimeError(
-            "GROQ_API_KEY is not set. Add it to your .env file or set the GROQ_API_KEY environment variable."
+            "GROQ_API_KEY is not set. Add your real key to the .env file "
+            "(the default placeholder from .env.example won't work)."
         )
