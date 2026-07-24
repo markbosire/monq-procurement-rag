@@ -76,10 +76,15 @@ def _llm_extract(
 
     client = Groq(api_key=settings.groq_api_key)
 
-    response = client.chat.completions.create(
-        model=settings.groq_model_name,
-        messages=[{"role": "user", "content": prompt}],
-        response_format={"type": "json_object"},
-    )
+    try:
+        response = client.chat.completions.create(
+            model=settings.groq_model_name,
+            messages=[{"role": "user", "content": prompt}],
+            response_format={"type": "json_object"},
+        )
+    except Groq.AuthenticationError as e:
+        raise ValueError(
+            "Invalid GROQ_API_KEY. Check that your key is correct in the .env file."
+        ) from e
     content = response.choices[0].message.content
     return json.loads(content)

@@ -113,13 +113,16 @@ def chat(
 
     repo.add_message(session.id, "user", body.question)
 
-    result = answer_question(
-        db, document_id, body.question,
-        history=history,
-        doc_category=doc.category,
-        doc_title=doc.title,
-        doc_extractions=doc.extractions,
-    )
+    try:
+        result = answer_question(
+            db, document_id, body.question,
+            history=history,
+            doc_category=doc.category,
+            doc_title=doc.title,
+            doc_extractions=doc.extractions,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
     repo.add_message(
         session.id,

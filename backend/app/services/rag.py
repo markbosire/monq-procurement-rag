@@ -178,12 +178,17 @@ def answer_question(
     messages = build_prompt(question, padded_contexts, history, doc_category, doc_title, known_fields)
 
     client = Groq(api_key=settings.groq_api_key)
-    response = client.chat.completions.create(
-        model=settings.groq_model_name,
-        messages=messages,
-        temperature=0.3,
-        response_format={"type": "json_object"},
-    )
+    try:
+        response = client.chat.completions.create(
+            model=settings.groq_model_name,
+            messages=messages,
+            temperature=0.3,
+            response_format={"type": "json_object"},
+        )
+    except Groq.AuthenticationError as e:
+        raise ValueError(
+            "Invalid GROQ_API_KEY. Check that your key is correct in the .env file."
+        ) from e
 
     raw = response.choices[0].message.content
     try:
