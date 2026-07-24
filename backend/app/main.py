@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.db.session import init_db
 from app.routers import documents, chat
+from app.config import settings
 
 
 def _init_models():
@@ -32,6 +33,10 @@ async def lifespan(app: FastAPI):
     Initialises the database schema, runs pending migrations, and
     pre-downloads ML models before serving requests.
     """
+    if not settings.groq_api_key:
+        print("  WARNING: GROQ_API_KEY is not set. Chat and classification will fail.", flush=True)
+    else:
+        print("  GROQ_API_KEY is set.", flush=True)
     init_db()
     _init_models()
     yield
