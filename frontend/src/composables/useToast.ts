@@ -53,7 +53,8 @@ export function useToast() {
     const id = nextId++
     state.toasts.push({ id, message, type })
     setTimeout(() => {
-      state.toasts = state.toasts.filter(t => t.id !== id)
+      const idx = state.toasts.findIndex(t => t.id === id)
+      if (idx !== -1) state.toasts.splice(idx, 1)
     }, 5000)
   }
 
@@ -63,12 +64,13 @@ export function useToast() {
    * @param id - The toast identifier.
    */
   function dismiss(id: number) {
-    state.toasts = state.toasts.filter(t => t.id !== id)
+    const idx = state.toasts.findIndex(t => t.id === id)
+    if (idx !== -1) state.toasts.splice(idx, 1)
   }
 
   /** Clear all visible toasts immediately. */
   function clear() {
-    state.toasts = []
+    state.toasts.splice(0, state.toasts.length)
   }
 
   return { toasts: readonly(state).toasts, show, dismiss, clear }
