@@ -48,19 +48,26 @@ The frontend server runs on: **http://localhost:5173**
 
 ### 3. Backend Setup
 
-Next, install dependencies and set up the virtual environment for the backend application:
+Next, install dependencies and set up the virtual environment for the backend application.
+
+#### Linux / macOS:
 
 ```bash
 cd ../backend
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env
 ```
 
-Configure environment variables:
+#### Windows (Command Prompt / PowerShell):
 
-```bash
-cp .env.example .env
+```cmd
+cd ..\backend
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+copy .env.example .env
 ```
 
 Edit `.env` and set your `GROQ_API_KEY`. (Default database URL points to local SQLite `sqlite:///./procurement.db`).
