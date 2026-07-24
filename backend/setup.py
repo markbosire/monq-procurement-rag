@@ -34,7 +34,7 @@ def main():
     python_cmd = str(venv_dir / ("Scripts" if is_windows else "bin") / "python")
 
     # 2. Install requirements
-    run([pip_cmd, "install", "--quiet", "-r", "requirements.txt"], "[1/5] Installing Python dependencies...")
+    run([pip_cmd, "install", "-r", "requirements.txt"], "[1/5] Installing Python dependencies...")
 
     # 3. Download spaCy model
     run([python_cmd, "-m", "spacy", "download", "en_core_web_sm"], "[2/5] Downloading spaCy language model...")
