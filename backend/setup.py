@@ -1,8 +1,8 @@
 """One-command setup script for the MONQ Procurement RAG backend.
 
-Creates a virtual environment, installs dependencies, downloads the spaCy
-model and sentence-transformers embedding model, and copies the example
-environment file.
+Creates a virtual environment, installs CPU-only PyTorch (to keep the
+install small), then installs remaining dependencies, downloads models,
+and copies the example environment file.
 """
 
 import os
@@ -33,22 +33,25 @@ def main():
     pip_cmd = str(venv_dir / ("Scripts" if is_windows else "bin") / "pip")
     python_cmd = str(venv_dir / ("Scripts" if is_windows else "bin") / "python")
 
-    # 2. Install requirements
-    run([pip_cmd, "install", "-r", "requirements.txt"], "[1/5] Installing Python dependencies...")
+    # 2. Install CPU-only PyTorch so sentence-transformers doesn't pull the 2GB+ CUDA version
+    run([pip_cmd, "install", "torch", "--index-url", "https://download.pytorch.org/whl/cpu"], "[1/6] Installing PyTorch (CPU-only)...")
 
-    # 3. Download spaCy model
-    run([python_cmd, "-m", "spacy", "download", "en_core_web_sm"], "[2/5] Downloading spaCy language model...")
+    # 3. Install remaining Python dependencies
+    run([pip_cmd, "install", "-r", "requirements.txt"], "[2/6] Installing Python dependencies...")
 
-    # 4. Pre-download sentence-transformers embedding model
-    run([python_cmd, "-c", "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"], "[3/5] Downloading embedding model (all-MiniLM-L6-v2)...")
+    # 4. Download spaCy model
+    run([python_cmd, "-m", "spacy", "download", "en_core_web_sm"], "[3/6] Downloading spaCy language model...")
 
-    # 5. Copy .env.example -> .env if not present
+    # 5. Pre-download sentence-transformers embedding model
+    run([python_cmd, "-c", "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"], "[4/6] Downloading embedding model (all-MiniLM-L6-v2)...")
+
+    # 6. Copy .env.example -> .env if not present
     env_example = BACKEND_DIR / ".env.example"
     env_file = BACKEND_DIR / ".env"
     if env_example.exists() and not env_file.exists():
-        print("  [4/5] Creating .env from .env.example...", flush=True)
+        print("  [5/6] Creating .env from .env.example...", flush=True)
         shutil.copy(env_example, env_file)
-    print("  [5/5] Don't forget to set your GROQ_API_KEY in .env", flush=True)
+    print("  [6/6] Don't forget to set your GROQ_API_KEY in .env", flush=True)
 
     print("\nSetup complete! Activate the environment and start the server:")
     if is_windows:

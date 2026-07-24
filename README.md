@@ -48,7 +48,9 @@ The frontend server runs on: **http://localhost:5173**
 
 ### 3. Backend Setup
 
-`setup.py` creates a virtual environment, installs dependencies, downloads the spaCy model, and copies `.env.example` to `.env`.
+`setup.py` creates a virtual environment, installs CPU-only PyTorch (keeps the install small), installs all dependencies, downloads models, and copies `.env.example` to `.env`.
+
+> **GPU note:** This project uses CPU-only PyTorch by default since the embedding model (`all-MiniLM-L6-v2`) runs well on CPU. If you have an NVIDIA GPU and want CUDA acceleration, see the [official PyTorch install guide](https://pytorch.org/get-started/locally/) and install the appropriate CUDA version **before** running `setup.py`.
 
 #### Linux / macOS
 
