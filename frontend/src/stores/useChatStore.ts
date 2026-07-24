@@ -82,11 +82,13 @@ export const useChatStore = defineStore('chat', () => {
    *
    * @param documentId - Document UUID.
    */
-  async function loadDocumentInfo(documentId: string) {
+  async function loadDocumentInfo(documentId: string): Promise<boolean> {
     try {
       documentInfo.value = await getDocument(documentId) as unknown as DocumentInfo
+      return true
     } catch {
-      // Silently ignored; the chat page can degrade gracefully.
+      documentInfo.value = null
+      return false
     }
   }
 

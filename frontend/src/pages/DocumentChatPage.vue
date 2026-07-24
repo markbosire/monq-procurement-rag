@@ -68,8 +68,12 @@ watch(activeHighlight, (hl) => {
 
 // ── Lifecycle ──
 
-onMounted(() => {
-  chatStore.loadDocumentInfo(props.id)
+onMounted(async () => {
+  const found = await chatStore.loadDocumentInfo(props.id)
+  if (!found) {
+    router.replace('/not-found')
+    return
+  }
   window.addEventListener('resize', onResize)
 })
 
