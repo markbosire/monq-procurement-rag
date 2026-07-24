@@ -8,7 +8,6 @@ opencode.json
 # Storage & Database
 backend/procurement.db*
 backend/storage/pdfs/
-storage/
 
 # Backend
 backend/.venv/
