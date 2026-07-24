@@ -62,6 +62,7 @@ Backend tests are located in `backend/tests/` and built using `pytest` and `http
 | `test_models.py` | SQLAlchemy ORM model verification, relationships, and custom `VectorType` JSON serialization. |
 | `test_repositories.py` | Data access layer methods for `DocumentRepository` and `ChatRepository`. |
 | `test_storage.py` | Local filesystem PDF storage (`LocalFileStorage`) saving, reading, and deletion. |
+| `test_groq_key.py` | `require_groq_key()` validation (empty, placeholder, valid), upload/chat endpoint 503 when key missing, `AuthenticationError` → 400 conversion. |
 
 ### Fixtures & Mocks (`conftest.py`)
 - **In-Memory SQLite**: Configured with an in-memory SQLite database instance (`sqlite:///:memory:`) for isolated, fast execution.
@@ -105,6 +106,7 @@ Frontend tests are located in `frontend/src/__tests__/` and built using `Vitest`
 | `router.test.ts` | Vue Router navigation guard, route matching, and fallback handling. |
 | `utils.test.ts` | Helper utilities, formatting functions, and coordinate scale calculations. |
 | `smoke.test.ts` | Environment sanity check ensuring Vitest test runner setup works correctly. |
+| `apiClient.test.ts` | Central HTTP client error handling; GROQ_API_KEY error detection and toast-once guard. |
 
 ---
 

@@ -7,6 +7,7 @@ the Groq LLM for an answer, and resolves cited source chunks.
 
 import json
 from groq import Groq
+from groq import AuthenticationError
 from app.config import settings
 from app.services.retrieval import retrieve_chunks
 
@@ -177,15 +178,15 @@ def answer_question(
 
     messages = build_prompt(question, padded_contexts, history, doc_category, doc_title, known_fields)
 
-    client = Groq(api_key=settings.groq_api_key)
     try:
+        client = Groq(api_key=settings.groq_api_key)
         response = client.chat.completions.create(
             model=settings.groq_model_name,
             messages=messages,
             temperature=0.3,
             response_format={"type": "json_object"},
         )
-    except Groq.AuthenticationError as e:
+    except AuthenticationError as e:
         raise ValueError(
             "Invalid GROQ_API_KEY. Check that your key is correct in the .env file."
         ) from e

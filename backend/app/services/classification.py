@@ -136,6 +136,8 @@ def classify(
             "fields": resolved_fields,
             "selected_indices": all_indices,
         }
+    except ValueError:
+        raise
     except Exception:
         return {
             "category": "Other",

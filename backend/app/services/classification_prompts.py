@@ -7,6 +7,7 @@ into a structured dictionary.
 
 import json
 from groq import Groq
+from groq import AuthenticationError
 
 from app.config import settings
 from app.constants import CATEGORY_EXEMPLARS, TYPE_FIELDS
@@ -74,15 +75,14 @@ def _llm_extract(
         "- In reasoning, mention specific signals (e.g., title says RFP, clauses imply contract).\n"
     )
 
-    client = Groq(api_key=settings.groq_api_key)
-
     try:
+        client = Groq(api_key=settings.groq_api_key)
         response = client.chat.completions.create(
             model=settings.groq_model_name,
             messages=[{"role": "user", "content": prompt}],
             response_format={"type": "json_object"},
         )
-    except Groq.AuthenticationError as e:
+    except AuthenticationError as e:
         raise ValueError(
             "Invalid GROQ_API_KEY. Check that your key is correct in the .env file."
         ) from e

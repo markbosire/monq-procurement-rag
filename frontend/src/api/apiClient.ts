@@ -47,6 +47,12 @@ const GROQ_KEY_ERRORS = [
  * Called once per session – subsequent calls are no-ops after the first toast.
  */
 let _groqKeyToastShown = false
+
+/** @internal Reset the toast-once guard (used in tests). */
+export function _resetGroqKeyToast() {
+  _groqKeyToastShown = false
+}
+
 function _warnIfGroqKeyError(message: string) {
   if (_groqKeyToastShown) return
   const isKeyError = GROQ_KEY_ERRORS.some(kw => message.includes(kw))

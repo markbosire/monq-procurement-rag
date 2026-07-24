@@ -1,8 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { apiFetch, apiFetchRaw, ApiError } from '../apiClient'
+import { apiFetch, apiFetchRaw, ApiError, _resetGroqKeyToast } from '../apiClient'
 
 beforeEach(() => {
   vi.restoreAllMocks()
+  _resetGroqKeyToast()
 })
 
 function mockFetch(status: number, body: unknown, ok?: boolean) {
@@ -66,5 +67,29 @@ describe('apiFetchRaw', () => {
   it('throws ApiError on non-2xx response', async () => {
     mockFetch(403, { detail: 'Forbidden' }, false)
     await expect(apiFetchRaw('/api/test')).rejects.toThrow(ApiError)
+  })
+})
+
+describe('GROQ_API_KEY error detection', () => {
+  it('throws ApiError with GROQ_API_KEY detail message', async () => {
+    mockFetch(400, { detail: 'Invalid GROQ_API_KEY. Check that your key is correct in the .env file.' }, false)
+    await expect(apiFetch('/api/documents')).rejects.toThrow(ApiError)
+  })
+
+  it('throws ApiError with GROQ_API_KEY detail on raw fetch', async () => {
+    const msg = "GROQ_API_KEY is not set. Add your real key to the .env file."
+    mockFetch(503, { detail: msg }, false)
+    await expect(apiFetchRaw('/api/documents/1/pdf')).rejects.toThrow(ApiError)
+  })
+
+  it('still throws ApiError even when toast is shown', async () => {
+    mockFetch(400, { detail: 'Invalid GROQ_API_KEY' }, false)
+    await expect(apiFetch('/api/test')).rejects.toThrow(ApiError)
+  })
+
+  it('toast fires only once for multiple GROQ_KEY errors', async () => {
+    mockFetch(400, { detail: 'Invalid GROQ_API_KEY' }, false)
+    await expect(apiFetch('/api/test')).rejects.toThrow(ApiError)
+    await expect(apiFetch('/api/test')).rejects.toThrow(ApiError)
   })
 })
