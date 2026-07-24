@@ -12,14 +12,28 @@ from app.db.session import init_db
 from app.routers import documents, chat
 
 
+def _init_models():
+    """Pre-download all ML models at startup so the first upload is fast."""
+    import spacy
+    from spacy.cli import download as spacy_download
+    try:
+        spacy.load("en_core_web_sm")
+    except OSError:
+        spacy_download("en_core_web_sm")
+
+    from app.services.embeddings import load_embedding_model
+    load_embedding_model()
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Manage application startup and shutdown lifecycle.
 
-    Initialises the database schema and runs pending migrations before
-    the application begins serving requests.
+    Initialises the database schema, runs pending migrations, and
+    pre-downloads ML models before serving requests.
     """
     init_db()
+    _init_models()
     yield
 
 
