@@ -48,48 +48,22 @@ The frontend server runs on: **http://localhost:5173**
 
 ### 3. Backend Setup
 
-#### Quick start (cross-platform):
-
 ```bash
 cd backend
 python setup.py
 ```
 
-This creates a virtual environment, installs dependencies, downloads the spaCy model, and copies `.env.example` to `.env`.
+`setup.py` creates a virtual environment, installs dependencies, downloads the spaCy model, and copies `.env.example` to `.env`.
 
-#### Manual setup:
+Edit `.env` and set your `GROQ_API_KEY`.
 
-##### Linux / macOS:
-
-```bash
-cd ../backend
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-python -m spacy download en_core_web_sm
-cp .env.example .env
-```
-
-##### Windows (Command Prompt / PowerShell):
-
-```cmd
-cd ..\backend
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-python -m spacy download en_core_web_sm
-copy .env.example .env
-```
-
-Edit `.env` and set your `GROQ_API_KEY`. (Default database URL points to local SQLite `sqlite:///./procurement.db`).
-
-Start the backend server:
+Start the server:
 
 ```bash
-uvicorn app.main:app --host 0.0.0.0 --port 8000
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
-The backend API server runs on: **http://localhost:8000** (Swagger docs available at http://localhost:8000/docs).
+The backend API runs on **http://localhost:8000** (Swagger at http://localhost:8000/docs).
 
 ## How to Use the System
 
