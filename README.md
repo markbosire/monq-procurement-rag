@@ -48,20 +48,27 @@ The frontend server runs on: **http://localhost:5173**
 
 ### 3. Backend Setup
 
-```bash
-cd backend
-python setup.py
-```
-
 `setup.py` creates a virtual environment, installs dependencies, downloads the spaCy model, and copies `.env.example` to `.env`.
 
-Edit `.env` and set your `GROQ_API_KEY`.
-
-Start the server:
+#### Linux / macOS
 
 ```bash
-python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+cd backend
+python3 setup.py
+source .venv/bin/activate
+uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
+
+#### Windows
+
+```cmd
+cd backend
+python setup.py
+.venv\Scripts\activate
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+Edit `.env` and set your `GROQ_API_KEY`.
 
 The backend API runs on **http://localhost:8000** (Swagger at http://localhost:8000/docs).
 
