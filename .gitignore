@@ -28,10 +28,7 @@ frontend/coverage/
 
 # Environment Variables
 .env
-.env.*
-!.env.example
-backend/.env
-backend/.env.*
+
 
 # OS & Temp Files
 .DS_Store
